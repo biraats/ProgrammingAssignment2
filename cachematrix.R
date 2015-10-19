@@ -1,15 +1,34 @@
-## Put comments here that give an overall description of what your
-## functions do
+# Function cacheSolve: Returns the inverse of a matrix and stores it if has not been calculated before.
+# First expand your regular matrix using the makeCacheMatrix function on it.
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+# This function expands matrix to support caches.  
+makeCacheMatrix <- function(u = matrix()) {
+  inv <- NULL
+  set <- function(v) {
+    u <<- v
+    inv <<- NULL
+  }
+  get <- function() u
+  setinv <- function(inverse) inv <<- inverse
+  getinv <- function() inv
+  list(set = set, 
+       get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
-
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+# casheSolve returns the inverse of a matrix if cashed or calculates the inverse.
+cacheSolve <- function(u, ...) {
+  inv <- u$getinv()
+# If inverse matrix exists returns it.
+  if(!is.null(inv)) {
+# Message("Found inverse in cache.")
+    return(inv)
+  }
+# Calculates inverse and stores it.
+  mat <- u$get()
+  inv <- solve(mat)
+  u$setinv(inv)
+  return(inv)
 }
+
